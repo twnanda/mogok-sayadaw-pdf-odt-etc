@@ -1,0 +1,32 @@
+# https://nimbinatus.com/2019/09/28/pelican-and-ghpages/
+# https://github.com/nimbinatus/nimbinatus.github.io/blob/source/.github/workflows/pelican.yml
+# https://github.com/JamesIves/github-pages-deploy-action
+# https://github.com/actions/setup-python
+name: Pelican site CI
+
+on:
+  # Trigger the workflow on push or pull request,
+  # but only for the main branch
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Add nojekyll
+      run: |
+        touch ./content/.nojekyll
+    - name: Deploy
+      uses: JamesIves/github-pages-deploy-action@v4
+      with:
+        BRANCH: gh-pages
+        FOLDER: ./content
+        CLEAN: true
